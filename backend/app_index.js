@@ -13,7 +13,6 @@ const getYearlyProduction = require('./routes/getYearlyProduction');
 // const testEnv = require('./routes/testEnv');
 const inverterRealtimeData = require('./routes/inverterRealtimeData');
 const getArchiveData = require('./routes/getArchiveData');
-const energa = require('./routes/energa');
 
 const app = express();
 // compress responses
@@ -42,7 +41,5 @@ app.use('/getYearlyProduction', getYearlyProduction);
 // app.use('/testenv', testEnv);
 app.use('/inverterRealtimeData', inverterRealtimeData);
 app.use('/getArchiveData', getArchiveData);
-
-app.use('/energa', energa);
 
 module.exports = app;
