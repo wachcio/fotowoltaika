@@ -1,0 +1,19 @@
+@import '../../SCSS/variables.scss';
+.customTooltip {
+    background-color: $basic-color;
+    color: $first-color;
+}
+.arrow {
+    background-color: $third-color;
+    color: $third-color;
+}
+.productionInDay {
+    top: 0;
+    right: 0;
+    width: 100%;
+    margin-top: 2em;
+    p {
+        text-align: right;
+        transform: translateY(2em);
+    }
+}
