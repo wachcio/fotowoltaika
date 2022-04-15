@@ -2,31 +2,34 @@ import dayjs from 'dayjs';
 import objectSupport from 'dayjs/plugin/objectSupport';
 dayjs.extend(objectSupport);
 
-const checkDate = ({ year, month, day }) => {
+interface checkDateParameter {
+  year: number;
+  month: number;
+  day: number;
+}
+
+interface checkYear {
+  year: number;
+}
+
+export const checkDate = ({ year, month, day }: checkDateParameter): boolean => {
   month--;
   return (
-    !dayjs({ year, month, day }).isValid() ||
+    !dayjs(new Date(year, month, day)).isValid() ||
     !day ||
     // !month ||
     !year ||
     day <= 0 ||
     month < 0 ||
     year < 2021 ||
-    dayjs(new Date()).diff({
-      year,
-      month,
-      day,
-    }) < 0
+    dayjs(new Date()).diff(new Date(year, month, day)) < 0
   );
 };
-const checkYear = ({ year }) => {
+export const checkYear = ({ year }: checkYear): boolean => {
   return (
-    !dayjs({ year }).isValid() ||
+    !dayjs(new Date(year)).isValid() ||
     !year ||
     year < 2021 ||
-    dayjs(new Date()).diff({
-      year,
-    }) < 0
+    dayjs(new Date()).diff(new Date(year)) < 0
   );
 };
-module.exports = { checkDate, checkYear };

@@ -19,7 +19,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import e from 'express';
 
-// import { checkDate } from '../helpers/checkDate';
+import { checkDate } from '../helpers/checkDate';
 
 dayjs.tz.setDefault('Europe/Warsaw');
 
@@ -134,16 +134,16 @@ router.get('/', async (req, res, next) => {
     };
 
     try {
-      // if (
-      //   checkDate({
-      //     day: req.query.day,
-      //     month: req.query.month,
-      //     year: req.query.year,
-      //   })
-      // ) {
-      //   res.status(404).json({ message: 'Provide wrong date.' });
-      //   return;
-      // }
+      if (
+        checkDate({
+          day: Number(req.query.day),
+          month: Number(req.query.month),
+          year: Number(req.query.year),
+        })
+      ) {
+        res.status(404).json({ message: 'Provide wrong date.' });
+        return;
+      }
       await getDayDetailsFromDatabase({
         day: req.query.day,
         month: req.query.month,
