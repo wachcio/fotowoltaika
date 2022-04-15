@@ -8,10 +8,10 @@ import compression from 'compression';
 
 import { indexRouter } from './routes/index';
 import { getDayDetails } from './routes/getDayDetails';
-// import { getMonthlyProduction } from './routes/getMonthlyProduction';
+import { getMonthlyProduction } from './routes/getMonthlyProduction';
 // import { getYearlyProduction } from './routes/getYearlyProduction';
 // // const testEnv = require('./routes/testEnv');
-// import { inverterRealtimeData } from './routes/inverterRealtimeData';
+import { inverterRealtimeData } from './routes/inverterRealtimeData';
 import { getArchiveData } from './routes/getArchiveData';
 
 const app = express();
@@ -36,10 +36,10 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 app.use('/getDayDetails', getDayDetails);
-// app.use('/getMonthlyProduction', getMonthlyProduction);
+app.use('/getMonthlyProduction', getMonthlyProduction);
 // app.use('/getYearlyProduction', getYearlyProduction);
 // // app.use('/testenv', testEnv);
-// app.use('/inverterRealtimeData', inverterRealtimeData);
+app.use('/inverterRealtimeData', inverterRealtimeData);
 app.use('/getArchiveData', getArchiveData);
 
 export { app };
