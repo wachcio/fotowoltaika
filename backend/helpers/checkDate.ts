@@ -1,5 +1,5 @@
-const dayjs = require('dayjs');
-const objectSupport = require('dayjs/plugin/objectSupport');
+import dayjs from 'dayjs';
+import objectSupport from 'dayjs/plugin/objectSupport';
 dayjs.extend(objectSupport);
 
 const checkDate = ({ year, month, day }) => {

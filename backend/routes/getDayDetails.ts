@@ -1,24 +1,77 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const dayjs = require('dayjs');
-const isToday = require('dayjs/plugin/isToday');
+import dayjs from 'dayjs';
+import isToday from 'dayjs/plugin/isToday';
 dayjs.extend(isToday);
-const objectSupport = require('dayjs/plugin/objectSupport');
+import objectSupport from 'dayjs/plugin/objectSupport';
 dayjs.extend(objectSupport);
-const timezone = require('dayjs/plugin/timezone');
+import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(timezone);
-const mysql = require('mysql');
-const path = require('path');
+import mysql from 'mysql';
+import path from 'path';
 // require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 console.log('dirname', path.join(__dirname, '..', '.env'));
 
 console.log('getDetail ENV:', process.env.PV_HOST);
 
-const axios = require('axios');
-const _ = require('lodash');
+import axios from 'axios';
+import _ from 'lodash';
+import e from 'express';
+
+// import { checkDate } from '../helpers/checkDate';
 
 dayjs.tz.setDefault('Europe/Warsaw');
+
+interface DayDetials {
+  EnergyReal_WAC_Sum_Produced: number;
+  EnergyReal_WAC_Sum_Produced_Until_Now: number;
+}
+type DaysDetials = DayDetials[];
+
+enum Channels {
+  // 'Current_DC_String_1',
+  // 'Current_DC_String_2',
+  // 'Voltage_DC_String_1',
+  // 'Voltage_DC_String_2',
+  // 'Temperature_Powerstage',
+  // 'Voltage_AC_Phase_1',
+  // 'Voltage_AC_Phase_2',
+  // 'Voltage_AC_Phase_3',
+  // 'Current_AC_Phase_1',
+  // 'Current_AC_Phase_2',
+  // 'Current_AC_Phase_3',
+  PowerReal_PAC_Sum = 'PowerReal_PAC_Sum',
+  EnergyReal_WAC_Sum_Produced = 'EnergyReal_WAC_Sum_Produced',
+}
+interface ChannelsObject {
+  // Current_DC_String_1: number;
+  // Current_DC_String_2: number;
+  // Voltage_DC_String_1: number;
+  // Voltage_DC_String_2: number;
+  // Temperature_Powerstage: number;
+  // Voltage_AC_Phase_1: number;
+  // Voltage_AC_Phase_2: number;
+  // Voltage_AC_Phase_3: number;
+  // Current_AC_Phase_1: number;
+  // Current_AC_Phase_2: number;
+  // Current_AC_Phase_3: number;
+  PowerReal_PAC_Sum: number;
+  EnergyReal_WAC_Sum_Produced: number;
+}
+interface ArchiveReadingsData extends ChannelsObject {
+  dateString: string;
+  PowerReal_PAC_Sum: number;
+  // EnergyReal_WAC_Sum_Produced: number;
+  // EnergyReal_WAC_Sum_Produced_Until_Now: number;
+  // this.Power_String_1 = '';
+  // this.Power_String_2 = '';
+}
+
+interface PVResFancyDate {
+  PowerReal_PAC_Sum: object;
+  EnergyReal_WAC_Sum_Produced: object;
+}
 
 router.get('/', async (req, res, next) => {
   // console.log(
@@ -34,17 +87,21 @@ router.get('/', async (req, res, next) => {
   //     year: Number(req.query.year),
   //   }).format('YYYY-MM-DD HH:mm'),
   // );
+  // const reqDate = {
+  //   day: Number(req.query.day),
+  //   month: Number(req.query.month) - 1,
+  //   year: Number(req.query.year),
+  // };
 
-  if (
-    !dayjs({
-      day: Number(req.query.day),
-      month: Number(req.query.month) - 1,
-      year: Number(req.query.year),
-    }).isToday()
-  ) {
+  const reqDate = new Date(
+    Number(req.query.year),
+    Number(req.query.month) - 1,
+    Number(req.query.day),
+  );
+
+  if (!dayjs(reqDate).isToday()) {
     // console.log('API');
     const connection = mysql.createConnection({
-      connectionLimit: 1,
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASS,
@@ -52,12 +109,10 @@ router.get('/', async (req, res, next) => {
       timezone: 'Europe/Warsaw',
       // debug: true,
     });
-    let connectionResult;
-
-    const { checkDate } = require('../helpers/checkDate');
+    let connectionResult: DaysDetials = [];
 
     const getDayDetailsFromDatabase = ({ day, month, year }) => {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         const query = `SELECT * FROM \`${process.env.DB_TABLE_DETAILED_DATA}\` WHERE YEAR( \`timestamp\` ) = ${year} AND MONTH(\`timestamp\`)=${month} AND DAY(\`timestamp\`)=${day}`;
 
         connection.query(query, function (error, results, fields) {
@@ -67,10 +122,10 @@ router.get('/', async (req, res, next) => {
 
           let sum = 0;
 
-          connectionResult.map(el => {
+          connectionResult.map((el: DayDetials) => {
             // console.log(el);
             sum = sum + el.EnergyReal_WAC_Sum_Produced;
-            el.EnergyReal_WAC_Sum_Produced_Until_Now = sum.toFixed(0);
+            el.EnergyReal_WAC_Sum_Produced_Until_Now = Number(sum.toFixed(0));
           });
 
           return resolve();
@@ -79,16 +134,16 @@ router.get('/', async (req, res, next) => {
     };
 
     try {
-      if (
-        checkDate({
-          day: req.query.day,
-          month: req.query.month,
-          year: req.query.year,
-        })
-      ) {
-        res.status(404).json({ message: 'Provide wrong date.' });
-        return;
-      }
+      // if (
+      //   checkDate({
+      //     day: req.query.day,
+      //     month: req.query.month,
+      //     year: req.query.year,
+      //   })
+      // ) {
+      //   res.status(404).json({ message: 'Provide wrong date.' });
+      //   return;
+      // }
       await getDayDetailsFromDatabase({
         day: req.query.day,
         month: req.query.month,
@@ -104,7 +159,7 @@ router.get('/', async (req, res, next) => {
   } else {
     // console.log('Fronius');
 
-    const channels = [
+    const channels: Channels[] = [
       // 'Current_DC_String_1',
       // 'Current_DC_String_2',
       // 'Voltage_DC_String_1',
@@ -116,27 +171,28 @@ router.get('/', async (req, res, next) => {
       // 'Current_AC_Phase_1',
       // 'Current_AC_Phase_2',
       // 'Current_AC_Phase_3',
-      'PowerReal_PAC_Sum',
-      'EnergyReal_WAC_Sum_Produced',
+      Channels.PowerReal_PAC_Sum,
+      Channels.EnergyReal_WAC_Sum_Produced,
     ];
-
-    const detailedData = {};
 
     // const dateToFetch = '2021-08-20';
     const dateToFetch = dayjs().format('YYYY-MM-DD');
 
-    const getAPIURL = () => {
+    const getAPIURL = (): string => {
       const correctDate = dayjs(dateToFetch).format('DD.MM.YYYY');
       let result = `${process.env.PV_HOST}solar_api/v1/GetArchiveData.cgi?Scope=System&StartDate=${correctDate}&EndDate=${correctDate}`;
 
       channels.map(e => {
+        console.log(channels[e]);
+
         result += `&Channel=${e}`;
       });
+      console.log(result);
 
       return result;
     };
 
-    function fancyTimeFormat(duration) {
+    function fancyTimeFormat(duration: number): string {
       // Hours, minutes and seconds
       const hrs = ~~(duration / 3600);
       const mins = ~~((duration % 3600) / 60);
@@ -159,8 +215,20 @@ router.get('/', async (req, res, next) => {
       ret = `${dayjs(dateToFetch).format('YYYY-MM-DD ') + ret}:00`;
       return ret;
     }
-    class ArchiveReading {
-      constructor(date) {
+
+    // const detailedData: ChannelsObject = {
+    //   EnergyReal_WAC_Sum_Produced: 0,
+    //   PowerReal_PAC_Sum: 0,
+    // };
+    const detailedData: any = [];
+
+    class ArchiveReading implements ArchiveReadingsData {
+      dateString: string;
+      PowerReal_PAC_Sum: number;
+      EnergyReal_WAC_Sum_Produced: number;
+      EnergyReal_WAC_Sum_Produced_Until_Now: number;
+
+      constructor(date: string) {
         this.dateString = date;
         // this.Current_DC_String_1 = '';
         // this.Current_DC_String_2 = '';
@@ -181,6 +249,8 @@ router.get('/', async (req, res, next) => {
       }
 
       createResponseObject() {
+        // console.log(this);
+
         return {
           PowerReal_PAC_Sum: Number(this.PowerReal_PAC_Sum).toFixed(),
           EnergyReal_WAC_Sum_Produced: Number(this.EnergyReal_WAC_Sum_Produced).toFixed(),
@@ -196,38 +266,28 @@ router.get('/', async (req, res, next) => {
     axios
       .get(`${getAPIURL()}`)
       .then(async ({ data }) => {
-        channels.map((el, i) => {
+        channels.map(el => {
           detailedData[el] = {
             ...data.Body.Data['inverter/1'].Data[el].Values,
           };
 
-          detailedData[el] = _.mapKeys(detailedData[el], (v, key) =>
-            // console.log(key);
-            fancyTimeFormat(key),
-          );
+          detailedData[el] = _.mapKeys(detailedData[el], (v, key) => fancyTimeFormat(Number(key)));
         });
       })
       .then(() => {
-        const archiveReadingsArray = [];
+        const archiveReadingsArray: ArchiveReading[] = [];
 
         for (const date in detailedData.PowerReal_PAC_Sum) {
           const reading = new ArchiveReading(date);
 
-          reading.PowerReal_PAC_Sum =
-            detailedData.PowerReal_PAC_Sum[date] === undefined
-              ? 0
-              : detailedData.PowerReal_PAC_Sum[date];
-          reading.EnergyReal_WAC_Sum_Produced =
-            detailedData.EnergyReal_WAC_Sum_Produced[date] === undefined
-              ? 0
-              : detailedData.EnergyReal_WAC_Sum_Produced[date];
+          reading.PowerReal_PAC_Sum = detailedData.PowerReal_PAC_Sum[date] ?? 0;
+          reading.EnergyReal_WAC_Sum_Produced = detailedData.EnergyReal_WAC_Sum_Produced[date] ?? 0;
 
           archiveReadingsArray.push(reading);
         }
         let sum = 0;
 
         archiveReadingsArray.map(el => {
-          // console.log(el);
           sum = sum + el.EnergyReal_WAC_Sum_Produced;
           el.EnergyReal_WAC_Sum_Produced_Until_Now = sum;
         });
@@ -241,4 +301,4 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export { router as getDayDetails };

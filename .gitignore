@@ -301,3 +301,5 @@ yarn-error.log*
 debug.log
 
 **/.vscode
+
+/log

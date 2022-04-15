@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const axios = require('axios');
-const dayjs = require('dayjs');
-const _ = require('lodash');
+import axios from 'axios';
+import dayjs from 'dayjs';
+import _ from 'lodash';
 
 router.get('/StringsCurrentData', async (req, res, next) => {
   const correctDate = dayjs().format('DD.MM.YYYY');
@@ -45,4 +45,4 @@ router.get('/StringsCurrentData', async (req, res, next) => {
     });
 });
 
-module.exports = router;
+export { router as getArchiveData };

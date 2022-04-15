@@ -1,15 +1,15 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const dayjs = require('dayjs');
-const objectSupport = require('dayjs/plugin/objectSupport');
+import dayjs from 'dayjs';
+import objectSupport from 'dayjs/plugin/objectSupport';
 dayjs.extend(objectSupport);
-const timezone = require('dayjs/plugin/timezone');
+import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(timezone);
-const mysql = require('mysql');
+import mysql from 'mysql';
 
-const axios = require('axios');
-const _ = require('lodash');
+import axios from 'axios';
+import _ from 'lodash';
 
 dayjs.tz.setDefault('Europe/Warsaw');
 
@@ -80,4 +80,4 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export { router as getYearlyProduction };

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es6", // configure the version standard for compiling object code
-    "module": "ESnext", // configure the modularity standards used by compilation targets
-    "lib": ["es6", "dom"],
+    "target": "ESNext", // configure the version standard for compiling object code
+    // configure the modularity standards used by compilation targets
+
     "outDir": "./dist",
     "baseUrl": "./",
     "strictNullChecks": true,
@@ -10,14 +10,26 @@
     "noImplicitUseStrict": true,
     "esModuleInterop": true,
     "noEmitOnError": true,
-    "moduleResolution": "node",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitThis": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "preserveConstEnums": true,
+    "downlevelIteration": true,
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true
   },
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
-  "include": ["./index.ts"]
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist",
+    "**/*spec.ts",
+    "./node_modules",
+    "./node_modules/*",
+    "./node_modules/@types/node/index.d.ts"
+  ],
+  "include": ["./app.ts"],
+  "type": "module"
 }

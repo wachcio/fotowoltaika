@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const axios = require('axios');
+import axios from 'axios';
 
 // console.log('env:', process.env.PV_HOST);
 
@@ -50,4 +50,4 @@ router.get('/MinMaxInverterData', async (req, res, next) => {
     });
 });
 
-module.exports = router;
+export { router as inverterRealtimeData };
