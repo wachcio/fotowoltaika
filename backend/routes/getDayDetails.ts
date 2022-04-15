@@ -187,7 +187,7 @@ router.get('/', async (req, res, next) => {
 
         result += `&Channel=${e}`;
       });
-      // console.log(result);
+      console.log(result);
 
       return result;
     };
