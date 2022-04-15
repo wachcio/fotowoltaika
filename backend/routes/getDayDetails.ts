@@ -30,32 +30,32 @@ interface DayDetials {
 type DaysDetials = DayDetials[];
 
 enum Channels {
-  // 'Current_DC_String_1',
-  // 'Current_DC_String_2',
-  // 'Voltage_DC_String_1',
-  // 'Voltage_DC_String_2',
-  // 'Temperature_Powerstage',
-  // 'Voltage_AC_Phase_1',
-  // 'Voltage_AC_Phase_2',
-  // 'Voltage_AC_Phase_3',
-  // 'Current_AC_Phase_1',
-  // 'Current_AC_Phase_2',
-  // 'Current_AC_Phase_3',
+  Current_DC_String_1 = 'Current_DC_String_1',
+  Current_DC_String_2 = 'Current_DC_String_2',
+  Voltage_DC_String_1 = 'Voltage_DC_String_1',
+  Voltage_DC_String_2 = 'Voltage_DC_String_2',
+  Temperature_Powerstage = 'Temperature_Powerstage',
+  Voltage_AC_Phase_1 = 'Voltage_AC_Phase_1',
+  Voltage_AC_Phase_2 = 'Voltage_AC_Phase_2',
+  Voltage_AC_Phase_3 = 'Voltage_AC_Phase_3',
+  Current_AC_Phase_1 = 'Current_AC_Phase_1',
+  Current_AC_Phase_2 = 'Current_AC_Phase_2',
+  Current_AC_Phase_3 = 'Current_AC_Phase_3',
   PowerReal_PAC_Sum = 'PowerReal_PAC_Sum',
   EnergyReal_WAC_Sum_Produced = 'EnergyReal_WAC_Sum_Produced',
 }
 interface ChannelsObject {
-  // Current_DC_String_1: number;
-  // Current_DC_String_2: number;
-  // Voltage_DC_String_1: number;
-  // Voltage_DC_String_2: number;
-  // Temperature_Powerstage: number;
-  // Voltage_AC_Phase_1: number;
-  // Voltage_AC_Phase_2: number;
-  // Voltage_AC_Phase_3: number;
-  // Current_AC_Phase_1: number;
-  // Current_AC_Phase_2: number;
-  // Current_AC_Phase_3: number;
+  Current_DC_String_1: number;
+  Current_DC_String_2: number;
+  Voltage_DC_String_1: number;
+  Voltage_DC_String_2: number;
+  Temperature_Powerstage: number;
+  Voltage_AC_Phase_1: number;
+  Voltage_AC_Phase_2: number;
+  Voltage_AC_Phase_3: number;
+  Current_AC_Phase_1: number;
+  Current_AC_Phase_2: number;
+  Current_AC_Phase_3: number;
   PowerReal_PAC_Sum: number;
   EnergyReal_WAC_Sum_Produced: number;
 }
@@ -160,17 +160,17 @@ router.get('/', async (req, res, next) => {
     // console.log('Fronius');
 
     const channels: Channels[] = [
-      // 'Current_DC_String_1',
-      // 'Current_DC_String_2',
-      // 'Voltage_DC_String_1',
-      // 'Voltage_DC_String_2',
-      // 'Temperature_Powerstage',
-      // 'Voltage_AC_Phase_1',
-      // 'Voltage_AC_Phase_2',
-      // 'Voltage_AC_Phase_3',
-      // 'Current_AC_Phase_1',
-      // 'Current_AC_Phase_2',
-      // 'Current_AC_Phase_3',
+      Channels.Current_DC_String_1,
+      Channels.Current_DC_String_2,
+      Channels.Voltage_DC_String_1,
+      Channels.Voltage_DC_String_2,
+      Channels.Temperature_Powerstage,
+      Channels.Voltage_AC_Phase_1,
+      Channels.Voltage_AC_Phase_2,
+      Channels.Voltage_AC_Phase_3,
+      Channels.Current_AC_Phase_1,
+      Channels.Current_AC_Phase_2,
+      Channels.Current_AC_Phase_3,
       Channels.PowerReal_PAC_Sum,
       Channels.EnergyReal_WAC_Sum_Produced,
     ];
@@ -227,36 +227,62 @@ router.get('/', async (req, res, next) => {
       PowerReal_PAC_Sum: number;
       EnergyReal_WAC_Sum_Produced: number;
       EnergyReal_WAC_Sum_Produced_Until_Now: number;
+      Current_DC_String_1: number;
+      Current_DC_String_2: number;
+      Voltage_DC_String_1: number;
+      Voltage_DC_String_2: number;
+      Temperature_Powerstage: number;
+      Voltage_AC_Phase_1: number;
+      Voltage_AC_Phase_2: number;
+      Voltage_AC_Phase_3: number;
+      Current_AC_Phase_1: number;
+      Current_AC_Phase_2: number;
+      Current_AC_Phase_3: number;
+      Power_String_1: number;
+      Power_String_2: number;
 
       constructor(date: string) {
         this.dateString = date;
-        // this.Current_DC_String_1 = '';
-        // this.Current_DC_String_2 = '';
-        // this.Voltage_DC_String_1 = '';
-        // this.Voltage_DC_String_2 = '';
-        // this.Temperature_Powerstage = '';
-        // this.Voltage_AC_Phase_1 = '';
-        // this.Voltage_AC_Phase_2 = '';
-        // this.Voltage_AC_Phase_3 = '';
-        // this.Current_AC_Phase_1 = '';
-        // this.Current_AC_Phase_2 = '';
-        // this.Current_AC_Phase_3 = '';
+        this.Current_DC_String_1 = 0;
+        this.Current_DC_String_2 = 0;
+        this.Voltage_DC_String_1 = 0;
+        this.Voltage_DC_String_2 = 0;
+        this.Temperature_Powerstage = 0;
+        this.Voltage_AC_Phase_1 = 0;
+        this.Voltage_AC_Phase_2 = 0;
+        this.Voltage_AC_Phase_3 = 0;
+        this.Current_AC_Phase_1 = 0;
+        this.Current_AC_Phase_2 = 0;
+        this.Current_AC_Phase_3 = 0;
         this.PowerReal_PAC_Sum = 0;
         this.EnergyReal_WAC_Sum_Produced = 0;
         this.EnergyReal_WAC_Sum_Produced_Until_Now = 0;
-        // this.Power_String_1 = '';
-        // this.Power_String_2 = '';
+        this.Power_String_1 = 0;
+        this.Power_String_2 = 0;
       }
 
       createResponseObject() {
         // console.log(this);
 
         return {
-          PowerReal_PAC_Sum: Number(this.PowerReal_PAC_Sum).toFixed(),
-          EnergyReal_WAC_Sum_Produced: Number(this.EnergyReal_WAC_Sum_Produced).toFixed(),
+          Current_AC_Phase_1: Number(this.Current_AC_Phase_1.toFixed(2)),
+          Current_AC_Phase_2: Number(this.Current_AC_Phase_2.toFixed(2)),
+          Current_AC_Phase_3: Number(this.Current_AC_Phase_3.toFixed(2)),
+          Voltage_AC_Phase_1: Number(this.Voltage_AC_Phase_1.toFixed(2)),
+          Voltage_AC_Phase_2: Number(this.Voltage_AC_Phase_2.toFixed(2)),
+          Voltage_AC_Phase_3: Number(this.Voltage_AC_Phase_3.toFixed(2)),
+          Current_DC_String_1: Number(this.Current_DC_String_1.toFixed(2)),
+          Current_DC_String_2: Number(this.Current_DC_String_2.toFixed(2)),
+          Voltage_DC_String_1: Number(this.Voltage_DC_String_1.toFixed(2)),
+          Voltage_DC_String_2: Number(this.Voltage_DC_String_2.toFixed(2)),
+          Power_String_1: Number(this.Power_String_1.toFixed(2)),
+          Power_String_2: Number(this.Power_String_2.toFixed(2)),
+          Temperature_Powerstage: Number(this.Temperature_Powerstage.toFixed(2)),
+          PowerReal_PAC_Sum: Number(this.PowerReal_PAC_Sum.toFixed()),
+          EnergyReal_WAC_Sum_Produced: Number(this.EnergyReal_WAC_Sum_Produced.toFixed()),
           EnergyReal_WAC_Sum_Produced_Until_Now: Number(
-            this.EnergyReal_WAC_Sum_Produced_Until_Now,
-          ).toFixed(),
+            this.EnergyReal_WAC_Sum_Produced_Until_Now.toFixed(),
+          ),
 
           timestamp: this.dateString,
         };
@@ -280,6 +306,22 @@ router.get('/', async (req, res, next) => {
         for (const date in detailedData.PowerReal_PAC_Sum) {
           const reading = new ArchiveReading(date);
 
+          reading.Current_AC_Phase_1 = detailedData.Current_AC_Phase_1[date] ?? 0;
+          reading.Current_AC_Phase_2 = detailedData.Current_AC_Phase_2[date] ?? 0;
+          reading.Current_AC_Phase_3 = detailedData.Current_AC_Phase_3[date] ?? 0;
+          reading.Current_DC_String_1 = detailedData.Current_DC_String_1[date] ?? 0;
+          reading.Current_DC_String_2 = detailedData.Current_DC_String_2[date] ?? 0;
+          reading.Voltage_AC_Phase_1 = detailedData.Voltage_AC_Phase_1[date] ?? 0;
+          reading.Voltage_AC_Phase_2 = detailedData.Voltage_AC_Phase_2[date] ?? 0;
+          reading.Voltage_AC_Phase_3 = detailedData.Voltage_AC_Phase_3[date] ?? 0;
+          reading.Voltage_DC_String_1 = detailedData.Voltage_DC_String_1[date] ?? 0;
+          reading.Voltage_DC_String_2 = detailedData.Voltage_DC_String_2[date] ?? 0;
+          reading.Power_String_1 =
+            detailedData.Current_DC_String_1[date] * detailedData.Voltage_DC_String_1[date] ?? 0;
+          reading.Power_String_2 =
+            detailedData.Current_DC_String_2[date] * detailedData.Voltage_DC_String_2[date] ?? 0;
+
+          reading.Temperature_Powerstage = detailedData.Temperature_Powerstage[date] ?? 0;
           reading.PowerReal_PAC_Sum = detailedData.PowerReal_PAC_Sum[date] ?? 0;
           reading.EnergyReal_WAC_Sum_Produced = detailedData.EnergyReal_WAC_Sum_Produced[date] ?? 0;
 
@@ -288,7 +330,7 @@ router.get('/', async (req, res, next) => {
         let sum = 0;
 
         archiveReadingsArray.map(el => {
-          sum = sum + el.EnergyReal_WAC_Sum_Produced;
+          sum = sum + Number(el.EnergyReal_WAC_Sum_Produced);
           el.EnergyReal_WAC_Sum_Produced_Until_Now = sum;
         });
 
