@@ -1,4 +1,4 @@
-const resetENV = () => {
+export const resetENV = () => {
   process.env.PV_HOST = '';
   process.env.API_HOST = '';
   process.env.DB_HOST = '';
@@ -13,5 +13,3 @@ const resetENV = () => {
   process.env.INVERTER_REALTIME_DATA_CID = '';
   process.env.INVERTER_REALTIME_DATA_3PID = '';
 };
-
-module.exports = resetENV;
