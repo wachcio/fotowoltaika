@@ -7,11 +7,11 @@ import _ from 'lodash';
 router.get('/StringsCurrentData', async (req, res, next) => {
   const correctDate = dayjs().format('DD.MM.YYYY');
 
-  function lastData(items) {
+  function lastData(items: object) {
     let last = 0;
 
     for (const i in items) {
-      if (i > last) last = items[i];
+      if (Number(i) > last) last = items[i];
     }
 
     return last;
@@ -44,5 +44,4 @@ router.get('/StringsCurrentData', async (req, res, next) => {
       console.log(error);
     });
 });
-
 export { router as getArchiveData };

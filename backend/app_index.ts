@@ -12,7 +12,7 @@ import { getDayDetails } from './routes/getDayDetails';
 // import { getYearlyProduction } from './routes/getYearlyProduction';
 // // const testEnv = require('./routes/testEnv');
 // import { inverterRealtimeData } from './routes/inverterRealtimeData';
-// import { getArchiveData } from './routes/getArchiveData';
+import { getArchiveData } from './routes/getArchiveData';
 
 const app = express();
 // compress responses
@@ -40,6 +40,6 @@ app.use('/getDayDetails', getDayDetails);
 // app.use('/getYearlyProduction', getYearlyProduction);
 // // app.use('/testenv', testEnv);
 // app.use('/inverterRealtimeData', inverterRealtimeData);
-// app.use('/getArchiveData', getArchiveData);
+app.use('/getArchiveData', getArchiveData);
 
 export { app };
