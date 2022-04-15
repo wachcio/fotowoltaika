@@ -11,9 +11,9 @@ dayjs.extend(timezone);
 import mysql from 'mysql';
 import path from 'path';
 // require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
-console.log('dirname', path.join(__dirname, '..', '.env'));
+// console.log('dirname', path.join(__dirname, '..', '.env'));
 
-console.log('getDetail ENV:', process.env.PV_HOST);
+// console.log('getDetail ENV:', process.env.PV_HOST);
 
 import axios from 'axios';
 import _ from 'lodash';
@@ -183,11 +183,11 @@ router.get('/', async (req, res, next) => {
       let result = `${process.env.PV_HOST}solar_api/v1/GetArchiveData.cgi?Scope=System&StartDate=${correctDate}&EndDate=${correctDate}`;
 
       channels.map(e => {
-        console.log(channels[e]);
+        // console.log(channels[e]);
 
         result += `&Channel=${e}`;
       });
-      console.log(result);
+      // console.log(result);
 
       return result;
     };
