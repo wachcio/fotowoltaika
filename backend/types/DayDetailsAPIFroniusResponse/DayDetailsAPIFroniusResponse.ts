@@ -22,7 +22,7 @@ type ChannelDetail = {
   };
 };
 
-interface DayDetailsAPIFroniusResponse {
+interface OkDayDetailsAPIFroniusResponse {
   Body: {
     Data: {
       'inverter/1': {
@@ -50,8 +50,33 @@ interface DayDetailsAPIFroniusResponse {
     Timestamp: string;
   };
 }
+interface BadDayDetailsAPIFroniusResponse {
+  Body: {
+    Data: {};
+  };
+  Head: {
+    RequestArguments: {
+      StartDate: null;
+      Scope: string;
+    };
+    Status: {
+      Code: number;
+      ErrorDetail: {
+        Nodes: [];
+      };
+      Reason: string;
+      UserMessage: string;
+    };
+    Timestamp: string;
+  };
+}
 
-const ResponseTemplate: DayDetailsAPIFroniusResponse = {
+type DayDetailsAPIFroniusResponse =
+  | OkDayDetailsAPIFroniusResponse
+  | BadDayDetailsAPIFroniusResponse;
+
+//Template responses
+const OkResponseTemplate: DayDetailsAPIFroniusResponse = {
   Body: {
     Data: {
       'inverter/1': {
@@ -222,5 +247,26 @@ const ResponseTemplate: DayDetailsAPIFroniusResponse = {
       UserMessage: '',
     },
     Timestamp: '2022-04-15T21:47:54+02:00',
+  },
+};
+
+const badResponseTemplate: DayDetailsAPIFroniusResponse = {
+  Body: {
+    Data: {},
+  },
+  Head: {
+    RequestArguments: {
+      Scope: 'System',
+      StartDate: null,
+    },
+    Status: {
+      Code: 255,
+      ErrorDetail: {
+        Nodes: [],
+      },
+      Reason: "invalid date (day) given '154.04.2022'",
+      UserMessage: '',
+    },
+    Timestamp: '2022-04-15T22:38:42+02:00',
   },
 };
