@@ -71,7 +71,7 @@ interface BadDayDetailsAPIFroniusResponse {
   };
 }
 
-type DayDetailsAPIFroniusResponse =
+export type DayDetailsAPIFroniusResponse =
   | OkDayDetailsAPIFroniusResponse
   | BadDayDetailsAPIFroniusResponse;
 
