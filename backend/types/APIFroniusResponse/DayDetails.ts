@@ -1,20 +1,20 @@
-enum Channels {
-  Current_DC_String_1 = 'Current_DC_String_1',
-  Current_DC_String_2 = 'Current_DC_String_2',
-  Voltage_DC_String_1 = 'Voltage_DC_String_1',
-  Voltage_DC_String_2 = 'Voltage_DC_String_2',
-  Temperature_Powerstage = 'Temperature_Powerstage',
-  Voltage_AC_Phase_1 = 'Voltage_AC_Phase_1',
-  Voltage_AC_Phase_2 = 'Voltage_AC_Phase_2',
-  Voltage_AC_Phase_3 = 'Voltage_AC_Phase_3',
-  Current_AC_Phase_1 = 'Current_AC_Phase_1',
-  Current_AC_Phase_2 = 'Current_AC_Phase_2',
-  Current_AC_Phase_3 = 'Current_AC_Phase_3',
-  PowerReal_PAC_Sum = 'PowerReal_PAC_Sum',
-  EnergyReal_WAC_Sum_Produced = 'EnergyReal_WAC_Sum_Produced',
+import { Channels, ChannelsObject } from './Channels';
+
+export interface DayDetail {
+  EnergyReal_WAC_Sum_Produced: number;
+  EnergyReal_WAC_Sum_Produced_Until_Now: number;
 }
 
-type ChannelDetail = {
+export interface ArchiveReadingsData extends ChannelsObject {
+  dateString: string;
+  PowerReal_PAC_Sum: number;
+  // EnergyReal_WAC_Sum_Produced: number;
+  // EnergyReal_WAC_Sum_Produced_Until_Now: number;
+  // this.Power_String_1 = '';
+  // this.Power_String_2 = '';
+}
+
+export type ChannelDetail = {
   [Channel in Channels]: {
     Unit: string;
     Values: { [Values: string]: number };
