@@ -5,8 +5,6 @@ import axios from 'axios';
 // console.log('env:', process.env.PV_HOST);
 
 router.get('/CommonInverterData', async (req, res, next) => {
-  console.log(`${process.env.API_HOST}inverterRealtimeData/CommonInverterData`);
-
   axios
     .get(
       // `${process.env.API_HOST}inverterRealtimeData/CommonInverterData`,
@@ -25,6 +23,7 @@ router.get('/CommonInverterData', async (req, res, next) => {
 });
 
 router.get('/3PInverterData', async (req, res, next) => {
+  console.log(`${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_3PID}`);
   axios
     .get(`${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_3PID}`)
     .then(async ({ data }) => {
@@ -39,6 +38,7 @@ router.get('/3PInverterData', async (req, res, next) => {
 });
 
 router.get('/MinMaxInverterData', async (req, res, next) => {
+  console.log(`${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_MMID}`);
   axios
     .get(`${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_MMID}`)
     .then(async ({ data }) => {
