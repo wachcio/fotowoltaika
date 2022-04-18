@@ -17,6 +17,10 @@ router.get('/StringsCurrentData', async (req, res, next) => {
     return last;
   }
 
+  console.log(
+    `${process.env.PV_HOST}${process.env.INVERTER_ARCHIVE_DATA_STRINGS_DATA}&StartDate=${correctDate}&EndDate=${correctDate}`,
+  );
+
   axios
     .get(
       `${process.env.PV_HOST}${process.env.INVERTER_ARCHIVE_DATA_STRINGS_DATA}&StartDate=${correctDate}&EndDate=${correctDate}`,
