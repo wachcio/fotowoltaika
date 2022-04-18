@@ -112,3 +112,23 @@ const minMaxInverterDataResponse: MinMaxInverterData = {
     Timestamp: '2022-04-18T12:02:59+02:00',
   },
 };
+
+const minMaxInverterDataResponseError = {
+  Body: {
+    Data: {},
+  },
+  Head: {
+    RequestArguments: {
+      DataCollection: 'MinMaxInverterData',
+      DeviceClass: 'Inverter',
+      DeviceId: '1',
+      Scope: 'Device',
+    },
+    Status: {
+      Code: 8,
+      Reason: 'Transfer timeout.',
+      UserMessage: '',
+    },
+    Timestamp: '2022-04-18T12:23:15+02:00',
+  },
+};
