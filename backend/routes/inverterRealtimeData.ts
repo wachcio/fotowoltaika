@@ -5,6 +5,8 @@ import axios from 'axios';
 // console.log('env:', process.env.PV_HOST);
 
 router.get('/CommonInverterData', async (req, res, next) => {
+  console.log(`${process.env.API_HOST}inverterRealtimeData/CommonInverterData`);
+
   axios
     .get(
       // `${process.env.API_HOST}inverterRealtimeData/CommonInverterData`,
