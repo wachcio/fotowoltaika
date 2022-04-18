@@ -13,11 +13,11 @@ export interface CommonInverterData {
         StateToReset: boolean;
         StatusCode: number;
       };
-      FAC: {
+      FAC?: {
         Unit: string;
         Value: number;
       };
-      IAC: {
+      IAC?: {
         Unit: string;
         Value: number;
       };
@@ -25,7 +25,7 @@ export interface CommonInverterData {
         Unit: string;
         Value: number;
       };
-      PAC: {
+      PAC?: {
         Unit: string;
         Value: number;
       };
@@ -33,7 +33,7 @@ export interface CommonInverterData {
         Unit: string;
         Value: number;
       };
-      UAC: {
+      UAC?: {
         Unit: string;
         Value: number;
       };
@@ -126,5 +126,54 @@ const commonInverterDataResponse: CommonInverterData = {
       UserMessage: '',
     },
     Timestamp: '2022-04-18T11:46:51+02:00',
+  },
+};
+
+const commonInterfaceDataAfterProduction: CommonInverterData = {
+  Body: {
+    Data: {
+      DAY_ENERGY: {
+        Unit: 'Wh',
+        Value: 64730,
+      },
+      DeviceStatus: {
+        ErrorCode: 307,
+        LEDColor: 1,
+        LEDState: 0,
+        MgmtTimerRemainingTime: 16,
+        StateToReset: false,
+        StatusCode: 3,
+      },
+      IDC: {
+        Unit: 'A',
+        Value: 0,
+      },
+      TOTAL_ENERGY: {
+        Unit: 'Wh',
+        Value: 6774410,
+      },
+      UDC: {
+        Unit: 'V',
+        Value: 18.1,
+      },
+      YEAR_ENERGY: {
+        Unit: 'Wh',
+        Value: 2861802.5,
+      },
+    },
+  },
+  Head: {
+    RequestArguments: {
+      DataCollection: 'CommonInverterData',
+      DeviceClass: 'Inverter',
+      DeviceId: '1',
+      Scope: 'Device',
+    },
+    Status: {
+      Code: 0,
+      Reason: '',
+      UserMessage: '',
+    },
+    Timestamp: '2022-04-18T22:04:16+02:00',
   },
 };
