@@ -13,6 +13,8 @@ interface checkYear {
 }
 
 export const checkDate = ({ year, month, day }: checkDateParameter): boolean => {
+  if (typeof year != 'number' || typeof month != 'number' || typeof day != 'number') return true;
+  if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) return true;
   month--;
   return (
     !dayjs(new Date(year, month, day)).isValid() ||
@@ -26,6 +28,7 @@ export const checkDate = ({ year, month, day }: checkDateParameter): boolean => 
   );
 };
 export const checkYear = ({ year }: checkYear): boolean => {
+  if (typeof year != 'number' || Number.isNaN(year)) return true;
   return (
     !dayjs(new Date(year)).isValid() ||
     !year ||
