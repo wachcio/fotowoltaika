@@ -31,5 +31,7 @@
     "./node_modules/@types/node/index.d.ts"
   ],
   "include": ["./app.ts"],
-  "type": "module"
+  "type": "module",
+  "types": ["node", "jest"],
+  "typeAcquisition": { "include": ["jest"] }
 }
