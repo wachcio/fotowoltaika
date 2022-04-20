@@ -1,3 +1,32 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+
+@wachcio
+wachcio
+/
+fotowoltaika
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+fotowoltaika/.gitignore
+@wachcio
+wachcio getDayDetails basic TS
+Latest commit 2affa66 5 days ago
+ History
+ 1 contributor
+305 lines (222 sloc)  6.1 KB
+
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,virtualenv,venv,pycharm+iml,pycharm+all,pycharm,dotenv,react
@@ -303,3 +332,16 @@ debug.log
 **/.vscode
 
 /log
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
