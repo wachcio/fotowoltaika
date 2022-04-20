@@ -36,7 +36,7 @@
     "@types/lodash": "^4.14.181",
     "@types/morgan": "^1.9.3",
     "@types/mysql": "^2.15.21",
-    "jest": "^27.5.1",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "ts-jest": "^27.1.4"
   }
 }
