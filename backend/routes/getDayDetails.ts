@@ -93,17 +93,18 @@ router.get('/', async (req, res, next) => {
           year: Number(req.query.year),
         })
       ) {
+        await getDayDetailsFromDatabase({
+          day: req.query.day,
+          month: req.query.month,
+          year: req.query.year,
+        });
+
+        res.status(200).json(connectionResult);
+        // res.status(200).json({ test: 'test' });
+      } else {
         res.status(404).json({ message: 'Provide wrong date.' });
         return;
       }
-      await getDayDetailsFromDatabase({
-        day: req.query.day,
-        month: req.query.month,
-        year: req.query.year,
-      });
-
-      res.status(200).json(connectionResult);
-      // res.status(200).json({ test: 'test' });
     } catch (e) {
       console.log(e);
       res.sendStatus(500);

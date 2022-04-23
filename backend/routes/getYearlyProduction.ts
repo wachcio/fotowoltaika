@@ -60,12 +60,13 @@ router.get('/', async (req, res, next) => {
         year: Number(req.query.year),
       })
     ) {
+      await getYearlyProductionFromDatabase({
+        year: req.query.year,
+      });
+    } else {
       res.status(404).json({ message: 'Provide wrong date.' });
       return;
     }
-    await getYearlyProductionFromDatabase({
-      year: req.query.year,
-    });
 
     res.status(200).json(connectionResult);
     // res.status(200).json({ test: 'test' });
