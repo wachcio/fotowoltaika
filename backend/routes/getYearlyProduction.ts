@@ -9,6 +9,7 @@ dayjs.extend(timezone);
 import mysql from 'mysql';
 
 dayjs.tz.setDefault('Europe/Warsaw');
+const { checkYear } = require('../helpers/checkDate');
 
 router.get('/', async (req, res, next) => {
   // console.log(
@@ -36,8 +37,6 @@ router.get('/', async (req, res, next) => {
   });
   let connectionResult;
 
-  const { checkYear } = require('../helpers/checkDate');
-
   //SET @row_number:=0; SELECT @row_number:=DAY(`timestamp`) AS Day, (MAX(`value`)-MIN(`value`)) AS sum FROM `total_production` WHERE YEAR(`timestamp`) = 2021 AND MONTH(`timestamp`) = 7 GROUP BY YEAR(`timestamp`), MONTH(`timestamp`), DAY(`timestamp`)
 
   const getYearlyProductionFromDatabase = ({ year }) => {
@@ -58,7 +57,7 @@ router.get('/', async (req, res, next) => {
   try {
     if (
       checkYear({
-        year: req.query.year,
+        year: Number(req.query.year),
       })
     ) {
       res.status(404).json({ message: 'Provide wrong date.' });

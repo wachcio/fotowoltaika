@@ -29,10 +29,11 @@ export const checkDate = ({ year, month, day }: checkDateParameter): boolean => 
 };
 export const checkYear = ({ year }: checkYear): boolean => {
   if (typeof year != 'number' || Number.isNaN(year)) return true;
+
   return (
     !dayjs(new Date(year)).isValid() ||
     !year ||
     year < 2021 ||
-    dayjs(new Date()).diff(new Date(year)) < 0
+    dayjs(new Date().getFullYear()).diff(new Date(year)) < 0
   );
 };
