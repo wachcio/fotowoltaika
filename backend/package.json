@@ -5,7 +5,9 @@
   "scripts": {
     "start": "env TZ='Europe/Warsaw' ts-node app",
     "start:dev": "env TZ='Europe/Warsaw' tsnd app",
-    "test": "jest"
+    "test": "jest",
+    "prebuild": "rimraf ./dist",
+    "build": "tsc"
   },
   "dependencies": {
     "axios": "^0.21.1",
