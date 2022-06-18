@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext", // configure the version standard for compiling object code
+    "target": "ES6", // configure the version standard for compiling object code
     // configure the modularity standards used by compilation targets
 
     "outDir": "./dist",
@@ -23,9 +23,9 @@
   },
   "exclude": [
     "node_modules",
-    "test",
     "dist",
     "**/*spec.ts",
+    "**/*test.ts",
     "./node_modules",
     "./node_modules/*",
     "./node_modules/@types/node/index.d.ts"
