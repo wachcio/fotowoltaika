@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-const { app } = require('./app_index');
+import { app } from './app_index';
 const debug = require('debug')('fotowoltaika-server:server');
-const http = require('http');
+import http from 'http';
 
 interface AddressInfo {
   address: string;
