@@ -3,7 +3,7 @@ import cors from 'cors';
 // import path from 'path';
 // import morgan from 'morgan';
 // import rfs from 'rotating-file-stream'; // version 2.x
-import compression from 'compression';
+// import compression from 'compression';
 
 import { indexRouter } from './routes/index';
 import { getDayDetails } from './routes/getDayDetails';
@@ -14,7 +14,7 @@ import { getArchiveData } from './routes/getArchiveData';
 
 const app = express();
 // compress responses
-app.use(compression());
+// app.use(compression());
 
 app.use(cors({ origin: '*' }));
 

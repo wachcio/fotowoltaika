@@ -10,6 +10,7 @@
     "build": "tsc",
     "postbuild": "cp ./package.json ./dist && cp ./.env ./dist && cp .htaccess ./dist && cp -r ./cron ./dist/cron"
   },
+  "type": "module",
   "dependencies": {
     "axios": "^0.27.2",
     "compression": "^1.7.4",
