@@ -1,7 +1,7 @@
 import express from 'express';
 import mysql from 'mysql';
 import axios, { AxiosResponse } from 'axios';
-import { mapKeys } from 'lodash';
+import _ from 'lodash';
 
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
@@ -193,7 +193,7 @@ const getDetailsIfNotToday = async (req, res) => {
       );
       const arrTmp = channels.map(el => {
         return {
-          [el]: mapKeys(response.data.Body.Data['inverter/1'].Data[el].Values, (v, key) =>
+          [el]: _.mapKeys(response.data.Body.Data['inverter/1'].Data[el].Values, (v, key) =>
             fancyTimeFormat(Number(key), dateToFetch),
           ) as ChannelObject,
         };

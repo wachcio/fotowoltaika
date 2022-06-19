@@ -5,7 +5,7 @@
  */
 
 import { app } from './app_index';
-const debug = require('debug')('fotowoltaika-server:server');
+// const debug = require('debug')('fotowoltaika-server:server');
 import http from 'http';
 
 interface AddressInfo {
@@ -53,7 +53,7 @@ function onListening() {
   const addr = server.address();
 
   const bind = typeof addr === 'string' ? `pipe ${addr}` : !addr ? `port` : `port ${addr.port}`;
-  debug(`Listening on ${bind}`);
+  // debug(`Listening on ${bind}`);
 }
 
 /**

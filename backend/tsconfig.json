@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6", // configure the version standard for compiling object code
+    "target": "ESNext", // configure the version standard for compiling object code
     // configure the modularity standards used by compilation targets
 
     "outDir": "./dist",

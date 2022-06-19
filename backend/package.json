@@ -7,8 +7,10 @@
     "start:dev": "env TZ='Europe/Warsaw' tsnd app",
     "test": "jest",
     "prebuild": "rimraf ./dist",
-    "build": "tsc"
+    "build": "tsc",
+    "postbuild": "cp ./package.json ./dist && cp ./.env ./dist && cp .htaccess ./dist && cp -r ./cron ./dist/cron"
   },
+  "type": "module",
   "dependencies": {
     "axios": "^0.21.1",
     "compression": "^1.7.4",
@@ -20,15 +22,10 @@
     "express": "^4.17.3",
     "express-async-handler": "^1.1.4",
     "lodash": "^4.17.21",
-    "megakurs": "file:dist",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
-    "pug": "^3.0.2",
-    "rotating-file-stream": "^2.1.5",
-    "ts-node": "^10.7.0",
-    "ts-node-dev": "^1.1.8",
-    "typescript": "^4.6.3"
+    "rotating-file-stream": "^2.1.5"
   },
   "devDependencies": {
     "@types/compression": "^1.7.2",
@@ -40,6 +37,9 @@
     "@types/morgan": "^1.9.3",
     "@types/mysql": "^2.15.21",
     "jest": "^27.5.1",
-    "ts-jest": "^27.1.4"
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.3"
   }
 }

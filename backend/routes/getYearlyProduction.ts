@@ -9,7 +9,7 @@ dayjs.extend(timezone);
 import mysql from 'mysql';
 
 dayjs.tz.setDefault('Europe/Warsaw');
-const { checkYear } = require('../helpers/checkDate');
+import { checkYear } from '../helpers/checkDate';
 
 router.get('/', async (req, res, next) => {
   // console.log(
