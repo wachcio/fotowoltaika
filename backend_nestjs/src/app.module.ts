@@ -2,10 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ShopController } from './shop/shop.controller';
-import { ShopService } from './shop/shop.service';
-import { BasketController } from './basket/basket.controller';
-import { BasketService } from './basket/basket.service';
 import { ArchiveDataModule } from './archive-data/archive-data.module';
 import { DayDetailsModule } from './day-details/day-details.module';
 import { MonthlyProductionModule } from './monthly-production/monthly-production.module';
@@ -23,7 +19,7 @@ import { InverterRealtimeDataModule } from './inverter-realtime-data/inverter-re
     YearlyProductionModule,
     InverterRealtimeDataModule,
   ],
-  controllers: [AppController, ShopController, BasketController],
-  providers: [AppService, ShopService, BasketService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
