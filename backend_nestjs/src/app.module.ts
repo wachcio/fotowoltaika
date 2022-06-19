@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArchiveDataModule } from './archive-data/archive-data.module';
@@ -10,9 +12,21 @@ import { InverterRealtimeDataModule } from './inverter-realtime-data/inverter-re
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'pv_test',
+      entities: ['dist/**/*.entity.js'],
+      synchronize: true,
+      logging: true,
     }),
+    ConfigModule.forRoot({
+      envFilePath: ['.env.development.local'],
+    }),
+
     ArchiveDataModule,
     DayDetailsModule,
     MonthlyProductionModule,
@@ -22,4 +36,6 @@ import { InverterRealtimeDataModule } from './inverter-realtime-data/inverter-re
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}

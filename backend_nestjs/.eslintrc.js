@@ -23,7 +23,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'array-callback-return': 'off',
     'linebreak-style': 'off',
-    indent: ['error', 2],
+    indent: off,
     quotes: ['error', 'single'],
     'func-names': 'off',
     'no-console': 'off',
