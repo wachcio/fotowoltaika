@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ShopController } from './shop/shop.controller';
@@ -12,7 +13,16 @@ import { YearlyProductionModule } from './yearly-production/yearly-production.mo
 import { InverterRealtimeDataModule } from './inverter-realtime-data/inverter-realtime-data.module';
 
 @Module({
-  imports: [ArchiveDataModule, DayDetailsModule, MonthlyProductionModule, YearlyProductionModule, InverterRealtimeDataModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    ArchiveDataModule,
+    DayDetailsModule,
+    MonthlyProductionModule,
+    YearlyProductionModule,
+    InverterRealtimeDataModule,
+  ],
   controllers: [AppController, ShopController, BasketController],
   providers: [AppService, ShopService, BasketService],
 })

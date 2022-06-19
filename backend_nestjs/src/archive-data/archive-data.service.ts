@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
-import { CreateArchiveDatumDto } from './dto/create-archive-datum.dto';
-import { UpdateArchiveDatumDto } from './dto/update-archive-datum.dto';
+
+import axios from 'axios';
+import * as dayjs from 'dayjs';
+import _ from 'lodash';
 
 @Injectable()
 export class ArchiveDataService {
-  create(createArchiveDatumDto: CreateArchiveDatumDto) {
-    return 'This action adds a new archiveDatum';
-  }
+  async findAll() {
+    const correctDate = dayjs().format('DD.MM.YYYY');
 
-  findAll() {
-    return `This action returns all archiveData`;
-  }
+    function lastData(items: object) {
+      let last = 0;
 
-  findOne(id: number) {
-    return `This action returns a #${id} archiveDatum`;
-  }
+      for (const i in items) {
+        if (Number(i) > last) last = items[i];
+      }
 
-  update(id: number, updateArchiveDatumDto: UpdateArchiveDatumDto) {
-    return `This action updates a #${id} archiveDatum`;
-  }
+      return last;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} archiveDatum`;
+    // console.log(
+    //   `${process.env.PV_HOST}${process.env.INVERTER_ARCHIVE_DATA_STRINGS_DATA}&StartDate=${correctDate}&EndDate=${correctDate}`,
+    // );
+
+    try {
+      const { data } = await axios.get(
+        `${process.env.PV_HOST}${process.env.INVERTER_ARCHIVE_DATA_STRINGS_DATA}&StartDate=${correctDate}&EndDate=${correctDate}`,
+      );
+      // handle success
+      const responseKeys = [
+        'Current_DC_String_1',
+        'Current_DC_String_2',
+        'Voltage_DC_String_1',
+        'Voltage_DC_String_2',
+        'Temperature_Powerstage',
+      ];
+      const response = {};
+
+      responseKeys.map((el) => {
+        response[el] = lastData(
+          data?.Body?.Data['inverter/1']?.Data[el]?.Values,
+        );
+      });
+      return await response;
+    } catch (error) {}
   }
 }
