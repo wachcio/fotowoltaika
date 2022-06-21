@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
 // import axios, { AxiosResponse } from 'axios';
 // import _ from 'lodash';
@@ -7,6 +8,8 @@ import * as dayjs from 'dayjs';
 import * as isToday from 'dayjs/plugin/isToday';
 import * as objectSupport from 'dayjs/plugin/objectSupport';
 import * as timezone from 'dayjs/plugin/timezone';
+import { Repository } from 'typeorm';
+import { DayDetail } from './entities/day-detail.entity';
 
 // import {
 //   DayDetailsAPIFroniusResponse,
@@ -257,7 +260,12 @@ dayjs.tz.setDefault('Europe/Warsaw');
 
 @Injectable()
 export class DayDetailsService {
-  findAll() {
+  constructor(
+    @InjectRepository(DayDetail)
+    private dayDetailRepository: Repository<DayDetail>,
+  ) {}
+
+  async getDay() {
     // const reqDate = new Date(
     //   Number(req.query.year),
     //   Number(req.query.month) - 1,
@@ -271,6 +279,6 @@ export class DayDetailsService {
     // } else {
     //   getDetailsIfNotToday(req, res);
     // }
-    return 'Test';
+    return await this.dayDetailRepository.find();
   }
 }

@@ -6,7 +6,7 @@ export class DayDetailsController {
   constructor(private readonly dayDetailsService: DayDetailsService) {}
 
   @Get()
-  findAll() {
-    return this.dayDetailsService.findAll();
+  getDay() {
+    return this.dayDetailsService.getDay();
   }
 }
