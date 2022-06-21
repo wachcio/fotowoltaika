@@ -1,6 +1,6 @@
 import { Channels, ChannelsObject } from './Channels';
 
-export interface DayDetail {
+export interface EnergyReal_WAC_Sum_Produced {
   EnergyReal_WAC_Sum_Produced: number;
   EnergyReal_WAC_Sum_Produced_Until_Now: number;
 }

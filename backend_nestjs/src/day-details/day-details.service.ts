@@ -1,5 +1,5 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 
 // import axios, { AxiosResponse } from 'axios';
 // import _ from 'lodash';
@@ -11,98 +11,98 @@ import * as timezone from 'dayjs/plugin/timezone';
 import { Repository } from 'typeorm';
 import { DayDetail } from './entities/day-detail.entity';
 
-// import {
-//   DayDetailsAPIFroniusResponse,
-//   ArchiveReadingsData,
-//   DayDetail,
-//   Channels,
-//   ChannelObject,
-// } from '../types';
-// import { checkDate } from '../helpers/checkDate';
-// import { fancyTimeFormat } from '../helpers/fancyFormat';
+import {
+  DayDetailsAPIFroniusResponse,
+  ArchiveReadingsData,
+  EnergyReal_WAC_Sum_Produced,
+  Channels,
+  ChannelObject,
+} from '../types';
+import { checkDate } from '../helpers/checkDate';
+import { fancyTimeFormat } from '../helpers/fancyFormat';
 
 dayjs.extend(isToday);
 dayjs.extend(objectSupport);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Europe/Warsaw');
 
-// const channels: Channels[] = [
-//   Channels.Current_DC_String_1,
-//   Channels.Current_DC_String_2,
-//   Channels.Voltage_DC_String_1,
-//   Channels.Voltage_DC_String_2,
-//   Channels.Temperature_Powerstage,
-//   Channels.Voltage_AC_Phase_1,
-//   Channels.Voltage_AC_Phase_2,
-//   Channels.Voltage_AC_Phase_3,
-//   Channels.Current_AC_Phase_1,
-//   Channels.Current_AC_Phase_2,
-//   Channels.Current_AC_Phase_3,
-//   Channels.PowerReal_PAC_Sum,
-//   Channels.EnergyReal_WAC_Sum_Produced,
-// ];
+const channels: Channels[] = [
+  Channels.Current_DC_String_1,
+  Channels.Current_DC_String_2,
+  Channels.Voltage_DC_String_1,
+  Channels.Voltage_DC_String_2,
+  Channels.Temperature_Powerstage,
+  Channels.Voltage_AC_Phase_1,
+  Channels.Voltage_AC_Phase_2,
+  Channels.Voltage_AC_Phase_3,
+  Channels.Current_AC_Phase_1,
+  Channels.Current_AC_Phase_2,
+  Channels.Current_AC_Phase_3,
+  Channels.PowerReal_PAC_Sum,
+  Channels.EnergyReal_WAC_Sum_Produced,
+];
 
-// const getDetailsToday = async (req, res) => {
-//   const connection = mysql.createConnection({
-//     host: process.env.DB_HOST,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASS,
-//     database: process.env.DB_NAME,
-//     timezone: 'Europe/Warsaw',
-//     // debug: true,
-//   });
+const getDetailsToday = async (year, month, day) => {
+  // const connection = mysql.createConnection({
+  //   host: process.env.DB_HOST,
+  //   user: process.env.DB_USER,
+  //   password: process.env.DB_PASS,
+  //   database: process.env.DB_NAME,
+  //   timezone: 'Europe/Warsaw',
+  //   // debug: true,
+  // });
 
-//   //When date is not today
+  //When date is not today
 
-//   let connectionResult: DayDetail[] = [];
+  let connectionResult: EnergyReal_WAC_Sum_Produced[] = [];
 
-//   const getDayDetailsFromDatabase = ({ day, month, year }) => {
-//     return new Promise<void>((resolve, reject) => {
-//       const query = `SELECT * FROM \`${process.env.DB_TABLE_DETAILED_DATA}\` WHERE YEAR( \`timestamp\` ) = ${year} AND MONTH(\`timestamp\`)=${month} AND DAY(\`timestamp\`)=${day}`;
+  // const getDayDetailsFromDatabase = ({ day, month, year }) => {
+  //   return new Promise<void>((resolve, reject) => {
+  //     const query = `SELECT * FROM \`${process.env.DB_TABLE_DETAILED_DATA}\` WHERE YEAR( \`timestamp\` ) = ${year} AND MONTH(\`timestamp\`)=${month} AND DAY(\`timestamp\`)=${day}`;
 
-//       connection.query(query, function (error, results, fields) {
-//         if (error) throw error;
+  //     connection.query(query, function (error, results, fields) {
+  //       if (error) throw error;
 
-//         connectionResult = results;
+  //       connectionResult = results;
 
-//         let sum = 0;
+  //       let sum = 0;
 
-//         connectionResult.map((el: DayDetail) => {
-//           // console.log(el);
-//           sum = sum + el.EnergyReal_WAC_Sum_Produced;
-//           el.EnergyReal_WAC_Sum_Produced_Until_Now = Number(sum.toFixed(0));
-//         });
+  //       connectionResult.map((el: EnergyReal_WAC_Sum_Produced) => {
+  //         // console.log(el);
+  //         sum = sum + el.EnergyReal_WAC_Sum_Produced;
+  //         el.EnergyReal_WAC_Sum_Produced_Until_Now = Number(sum.toFixed(0));
+  //       });
 
-//         return resolve();
-//       });
-//     });
-//   };
+  //       return resolve();
+  //     });
+  //   });
+  // };
 
-//   try {
-//     if (
-//       checkDate({
-//         day: Number(req.query.day),
-//         month: Number(req.query.month),
-//         year: Number(req.query.year),
-//       })
-//     ) {
-//       await getDayDetailsFromDatabase({
-//         day: req.query.day,
-//         month: req.query.month,
-//         year: req.query.year,
-//       });
+  //   try {
+  //     if (
+  //       checkDate({
+  //         day: Number(req.query.day),
+  //         month: Number(req.query.month),
+  //         year: Number(req.query.year),
+  //       })
+  //     ) {
+  //       await getDayDetailsFromDatabase({
+  //         day: req.query.day,
+  //         month: req.query.month,
+  //         year: req.query.year,
+  //       });
 
-//       res.status(200).json(connectionResult);
-//       // res.status(200).json({ test: 'test' });
-//     } else {
-//       res.status(404).json({ message: 'Provide wrong date.' });
-//       return;
-//     }
-//   } catch (e) {
-//     console.log(e);
-//     res.sendStatus(500);
-//   }
-// };
+  //       res.status(200).json(connectionResult);
+  //       // res.status(200).json({ test: 'test' });
+  //     } else {
+  //       res.status(404).json({ message: 'Provide wrong date.' });
+  //       return;
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //     res.sendStatus(500);
+  //   }
+};
 
 // const getDetailsIfNotToday = async (req, res) => {
 //   // get data from Fronius API
@@ -265,20 +265,22 @@ export class DayDetailsService {
     private dayDetailRepository: Repository<DayDetail>,
   ) {}
 
-  async getDay() {
-    // const reqDate = new Date(
-    //   Number(req.query.year),
-    //   Number(req.query.month) - 1,
-    //   Number(req.query.day),
-    // );
+  async getDayDetails(year: number, month: number, day: number) {
+    // const reqDate = new Date(Number(year), Number(month) - 1, Number(day));
 
     // //check date if today get data from Fronius API if not get data from database
 
     // if (!dayjs(reqDate).isToday()) {
-    //   getDetailsToday(req, res);
+    //   return await getDetailsToday(year, month, day);
     // } else {
-    //   getDetailsIfNotToday(req, res);
+    //   return await getDetailsIfNotToday(year, month, day);
     // }
-    return await this.dayDetailRepository.find();
+
+    return await this.dayDetailRepository
+      .createQueryBuilder('item')
+      .where(
+        `YEAR( \`timestamp\` ) = ${year} AND MONTH(\`timestamp\`)=${month} AND DAY(\`timestamp\`)=${day}`,
+      )
+      .getMany();
   }
 }
