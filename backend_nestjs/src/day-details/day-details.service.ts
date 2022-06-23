@@ -268,6 +268,8 @@ export class DayDetailsService {
   async getDayDetails(year: number, month: number, day: number) {
     // const reqDate = new Date(Number(year), Number(month) - 1, Number(day));
 
+    // month = month - 1;
+
     // //check date if today get data from Fronius API if not get data from database
 
     // if (!dayjs(reqDate).isToday()) {
@@ -278,9 +280,9 @@ export class DayDetailsService {
 
     return await this.dayDetailRepository
       .createQueryBuilder('item')
-      .where(
-        `YEAR( \`timestamp\` ) = ${year} AND MONTH(\`timestamp\`)=${month} AND DAY(\`timestamp\`)=${day}`,
-      )
+      .where(`YEAR( \`timestamp\` ) = :year`, { year: Number(year) })
+      .andWhere(`MONTH(\`timestamp\`) = :month`, { month: Number(month) })
+      .andWhere(`DAY(\`timestamp\`) = :day`, { day: Number(day) })
       .getMany();
   }
 }
