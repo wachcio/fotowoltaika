@@ -1,5 +1,5 @@
-import dayjs from 'dayjs';
-import objectSupport from 'dayjs/plugin/objectSupport';
+import * as dayjs from 'dayjs';
+import * as objectSupport from 'dayjs/plugin/objectSupport';
 dayjs.extend(objectSupport);
 
 interface checkDateParameter {
@@ -12,9 +12,19 @@ interface checkYear {
   year: number;
 }
 
-export const checkDate = ({ year, month, day }: checkDateParameter): boolean => {
-  if (typeof year != 'number' || typeof month != 'number' || typeof day != 'number') return false;
-  if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) return false;
+export const checkDate = ({
+  year,
+  month,
+  day,
+}: checkDateParameter): boolean => {
+  if (
+    typeof year != 'number' ||
+    typeof month != 'number' ||
+    typeof day != 'number'
+  )
+    return false;
+  if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day))
+    return false;
   month--;
   return !(
     !dayjs(new Date(year, month, day)).isValid() ||

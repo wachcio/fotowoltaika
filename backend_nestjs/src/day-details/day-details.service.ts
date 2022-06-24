@@ -2,7 +2,7 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 
 import axios, { AxiosResponse } from 'axios';
-import _ from 'lodash';
+import { mapKeys } from 'lodash';
 
 import * as dayjs from 'dayjs';
 import * as isToday from 'dayjs/plugin/isToday';
@@ -71,30 +71,7 @@ export class DayDetailsService {
     });
     return dayDetailsFromDatabase;
 
-    //   try {
-    //     if (
-    //       checkDate({
-    //         day: Number(req.query.day),
-    //         month: Number(req.query.month),
-    //         year: Number(req.query.year),
-    //       })
-    //     ) {
-    //       await getDayDetailsFromDatabase({
-    //         day: req.query.day,
-    //         month: req.query.month,
-    //         year: req.query.year,
-    //       });
-
-    //       res.status(200).json(connectionResult);
-    //       // res.status(200).json({ test: 'test' });
-    //     } else {
-    //       res.status(404).json({ message: 'Provide wrong date.' });
-    //       return;
-    //     }
-    //   } catch (e) {
-    //     console.log(e);
-    //     res.sendStatus(500);
-    //   }
+    //
   };
 
   getDetailsToday = async () => {
@@ -108,7 +85,6 @@ export class DayDetailsService {
       channels.map((e) => {
         result += `&Channel=${e}`;
       });
-      // console.log({ result });
       return result;
     };
     class ArchiveReading implements ArchiveReadingsData {
@@ -129,6 +105,7 @@ export class DayDetailsService {
       Current_AC_Phase_3: number;
       Power_String_1: number;
       Power_String_2: number;
+
       constructor(date: string) {
         this.dateString = date;
         this.Current_DC_String_1 = 0;
@@ -177,93 +154,89 @@ export class DayDetailsService {
       }
     }
 
-    console.log(
-      await (async () => {
-        try {
-          const response: AxiosResponse<DayDetailsAPIFroniusResponse> =
-            await axios.get(`${getAPIURL()}`);
-          console.log(
-            response.data.Body.Data['inverter/1'].Data['Current_AC_Phase_1'],
-          );
+    try {
+      const response: AxiosResponse<DayDetailsAPIFroniusResponse> =
+        await axios.get(`${getAPIURL()}`);
 
-          const arrTmp = channels.map((el) => {
-            return {
-              [el]: _.mapKeys(
-                response.data.Body.Data['inverter/1'].Data[el].Values,
-                (v, key) => fancyTimeFormat(Number(key), dateToFetch),
-              ) as ChannelObject,
-            };
-          });
-          console.log(arrTmp);
-          const objTmp = {};
-          const data = arrTmp.map((el) => Object.assign(objTmp, el))[0];
-          const archiveReadingsArray: ArchiveReading[] = [];
-          for (const date in data.PowerReal_PAC_Sum) {
-            const reading = new ArchiveReading(date);
-            reading.Current_AC_Phase_1 =
-              Number(data.Current_AC_Phase_1[date]) ?? 0;
-            reading.Current_AC_Phase_2 =
-              Number(data.Current_AC_Phase_2[date]) ?? 0;
-            reading.Current_AC_Phase_3 =
-              Number(data.Current_AC_Phase_3[date]) ?? 0;
-            reading.Current_DC_String_1 =
-              Number(data.Current_DC_String_1[date]) ?? 0;
-            reading.Current_DC_String_2 =
-              Number(data.Current_DC_String_2[date]) ?? 0;
-            reading.Voltage_AC_Phase_1 =
-              Number(data.Voltage_AC_Phase_1[date]) ?? 0;
-            reading.Voltage_AC_Phase_2 =
-              Number(data.Voltage_AC_Phase_2[date]) ?? 0;
-            reading.Voltage_AC_Phase_3 =
-              Number(data.Voltage_AC_Phase_3[date]) ?? 0;
-            reading.Voltage_DC_String_1 =
-              Number(data.Voltage_DC_String_1[date]) ?? 0;
-            reading.Voltage_DC_String_2 =
-              Number(data.Voltage_DC_String_2[date]) ?? 0;
-            reading.Power_String_1 =
-              Number(data.Current_DC_String_1[date]) *
-                Number(data.Voltage_DC_String_1[date]) ?? 0;
-            reading.Power_String_2 =
-              Number(data.Current_DC_String_2[date]) *
-                Number(data.Voltage_DC_String_2[date]) ?? 0;
-            reading.Temperature_Powerstage =
-              Number(data.Temperature_Powerstage[date]) ?? 0;
-            reading.PowerReal_PAC_Sum =
-              Number(data.PowerReal_PAC_Sum[date]) ?? 0;
-            reading.EnergyReal_WAC_Sum_Produced =
-              Number(data.EnergyReal_WAC_Sum_Produced[date]) ?? 0;
-            archiveReadingsArray.push(reading);
+      const arrTmp = channels.map((el) => ({
+        [el]: mapKeys(
+          response.data.Body.Data['inverter/1'].Data[el].Values,
+          (v, key) => fancyTimeFormat(Number(key), dateToFetch),
+        ) as ChannelObject,
+      }));
+      console.log('kk');
 
-            let sum = 0;
-            archiveReadingsArray.map((el) => {
-              sum = sum + Number(el.EnergyReal_WAC_Sum_Produced);
-              el.EnergyReal_WAC_Sum_Produced_Until_Now = sum;
-            });
-          }
-          console.log(archiveReadingsArray);
+      console.log({ arrTmp });
+      const objTmp = {};
+      const data = arrTmp.map((el) => Object.assign(objTmp, el))[0];
+      const archiveReadingsArray: ArchiveReading[] = [];
+      for (const date in data.PowerReal_PAC_Sum) {
+        const reading = new ArchiveReading(date);
+        reading.Current_AC_Phase_1 = Number(data.Current_AC_Phase_1[date]) ?? 0;
+        reading.Current_AC_Phase_2 = Number(data.Current_AC_Phase_2[date]) ?? 0;
+        reading.Current_AC_Phase_3 = Number(data.Current_AC_Phase_3[date]) ?? 0;
+        reading.Current_DC_String_1 =
+          Number(data.Current_DC_String_1[date]) ?? 0;
+        reading.Current_DC_String_2 =
+          Number(data.Current_DC_String_2[date]) ?? 0;
+        reading.Voltage_AC_Phase_1 = Number(data.Voltage_AC_Phase_1[date]) ?? 0;
+        reading.Voltage_AC_Phase_2 = Number(data.Voltage_AC_Phase_2[date]) ?? 0;
+        reading.Voltage_AC_Phase_3 = Number(data.Voltage_AC_Phase_3[date]) ?? 0;
+        reading.Voltage_DC_String_1 =
+          Number(data.Voltage_DC_String_1[date]) ?? 0;
+        reading.Voltage_DC_String_2 =
+          Number(data.Voltage_DC_String_2[date]) ?? 0;
+        reading.Power_String_1 =
+          Number(data.Current_DC_String_1[date]) *
+            Number(data.Voltage_DC_String_1[date]) ?? 0;
+        reading.Power_String_2 =
+          Number(data.Current_DC_String_2[date]) *
+            Number(data.Voltage_DC_String_2[date]) ?? 0;
+        reading.Temperature_Powerstage =
+          Number(data.Temperature_Powerstage[date]) ?? 0;
+        reading.PowerReal_PAC_Sum = Number(data.PowerReal_PAC_Sum[date]) ?? 0;
+        reading.EnergyReal_WAC_Sum_Produced =
+          Number(data.EnergyReal_WAC_Sum_Produced[date]) ?? 0;
+        archiveReadingsArray.push(reading);
 
-          return archiveReadingsArray.map((reading) =>
-            reading.createResponseObject(),
-          );
-        } catch {
-          (error) => {
-            // handle error
-            console.log(error);
-          };
-        }
-      })(),
-    );
+        let sum = 0;
+        archiveReadingsArray.map((el) => {
+          sum = sum + Number(el.EnergyReal_WAC_Sum_Produced);
+          el.EnergyReal_WAC_Sum_Produced_Until_Now = sum;
+        });
+      }
+      console.log(archiveReadingsArray);
+
+      return archiveReadingsArray.map((reading) =>
+        reading.createResponseObject(),
+      );
+    } catch {
+      (error) => {
+        // handle error
+        console.log(error);
+      };
+    }
   };
 
   async getDayDetails(year: number, month: number, day: number) {
-    //check date if today get data from Fronius API if not get data from database
-
     if (
-      dayjs(new Date(Number(year), Number(month) - 1, Number(day))).isToday()
+      checkDate({
+        day: Number(day),
+        month: Number(month),
+        year: Number(year),
+      })
     ) {
-      return await this.getDetailsToday();
+      //check date if today get data from Fronius API if not get data from database
+
+      if (
+        dayjs(new Date(Number(year), Number(month) - 1, Number(day))).isToday()
+      ) {
+        return await this.getDetailsToday();
+      } else {
+        return await this.getDetailsIfNotToday(year, month, day);
+      }
     } else {
-      return await this.getDetailsIfNotToday(year, month, day);
+      return { message: 'Provide wrong date.' };
     }
   }
 }

@@ -1,7 +1,10 @@
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 
 //convertion duration in second to human format - Hours, minutes and seconds
-export const fancyTimeFormat = (duration: number, dateToFetch: string): string => {
+export const fancyTimeFormat = (
+  duration: number,
+  dateToFetch: string,
+): string => {
   const hrs = ~~(duration / 3600);
   const mins = ~~((duration % 3600) / 60);
   let res = '';
