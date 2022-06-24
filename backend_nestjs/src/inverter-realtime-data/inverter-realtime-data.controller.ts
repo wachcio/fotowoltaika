@@ -1,34 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { InverterRealtimeDataService } from './inverter-realtime-data.service';
 import { CreateInverterRealtimeDatumDto } from './dto/create-inverter-realtime-datum.dto';
 import { UpdateInverterRealtimeDatumDto } from './dto/update-inverter-realtime-datum.dto';
 
 @Controller('inverter-realtime-data')
 export class InverterRealtimeDataController {
-  constructor(private readonly inverterRealtimeDataService: InverterRealtimeDataService) {}
+  constructor(
+    private readonly inverterRealtimeDataService: InverterRealtimeDataService,
+  ) {}
 
-  @Post()
-  create(@Body() createInverterRealtimeDatumDto: CreateInverterRealtimeDatumDto) {
-    return this.inverterRealtimeDataService.create(createInverterRealtimeDatumDto);
+  @Get('/common-inverter-data')
+  async commonInverterData() {
+    return await this.inverterRealtimeDataService.commonInverterData();
   }
-
-  @Get()
-  findAll() {
-    return this.inverterRealtimeDataService.findAll();
+  @Get('/3p_inverter_data')
+  async threePInverterData() {
+    return await this.inverterRealtimeDataService.threeP_inverter_data();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.inverterRealtimeDataService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInverterRealtimeDatumDto: UpdateInverterRealtimeDatumDto) {
-    return this.inverterRealtimeDataService.update(+id, updateInverterRealtimeDatumDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.inverterRealtimeDataService.remove(+id);
+  @Get('/min_max_inverter_data')
+  async minMaxInverterData() {
+    return await this.inverterRealtimeDataService.minMaxInverterData();
   }
 }
