@@ -49,6 +49,6 @@ export class DayDetail {
   @Column({ type: 'float', precision: 6, scale: 2 })
   'Power_String_2': number;
 
-  @Column({ type: 'timestamp' }) // Recommended
+  @Column({ type: 'datetime' }) // Recommended
   timestamp: Date;
 }
