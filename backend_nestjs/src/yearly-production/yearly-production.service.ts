@@ -5,7 +5,7 @@ import * as objectSupport from 'dayjs/plugin/objectSupport';
 import * as timezone from 'dayjs/plugin/timezone';
 import { Repository } from 'typeorm';
 import { checkYear } from '../helpers/checkDate';
-import { TotalProduction } from '../monthly-production/entities/monthly-production.entity';
+import { TotalProduction } from '../common_entities/monthly-production.entity';
 
 dayjs.extend(timezone);
 dayjs.extend(objectSupport);

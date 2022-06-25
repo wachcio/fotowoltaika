@@ -1,15 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { InverterRealtimeDataService } from './inverter-realtime-data.service';
-import { CreateInverterRealtimeDatumDto } from './dto/create-inverter-realtime-datum.dto';
-import { UpdateInverterRealtimeDatumDto } from './dto/update-inverter-realtime-datum.dto';
 
 @Controller('inverter-realtime-data')
 export class InverterRealtimeDataController {
