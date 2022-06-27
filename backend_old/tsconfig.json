@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // configure the version standard for compiling object code
+    // configure the modularity standards used by compilation targets
+
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "strictNullChecks": true,
+    "removeComments": true,
+    "noImplicitUseStrict": true,
+    "esModuleInterop": true,
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "sourceMap": true,
+    "preserveConstEnums": true,
+    "downlevelIteration": true,
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*spec.ts",
+    "**/*test.ts",
+    "./node_modules",
+    "./node_modules/*",
+    "./node_modules/@types/node/index.d.ts"
+  ],
+  "include": ["./app.ts"],
+  // "type": "module",
+  "types": ["node", "jest"],
+  "typeAcquisition": { "include": ["jest"] }
+}
