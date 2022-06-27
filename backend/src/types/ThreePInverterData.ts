@@ -1,4 +1,4 @@
-export interface ThreePInverterData {
+export interface ThreePInverterDataFroniusResponse {
   Body: {
     Data: {
       IAC_L1?: {
@@ -44,7 +44,7 @@ export interface ThreePInverterData {
 }
 
 //Templare response ThreePInverterData
-const threePInverterData: ThreePInverterData = {
+const threePInverterData: ThreePInverterDataFroniusResponse = {
   Body: {
     Data: {
       IAC_L1: {
@@ -89,7 +89,7 @@ const threePInverterData: ThreePInverterData = {
   },
 };
 
-const threePInverterDataAfterProduction: ThreePInverterData = {
+const threePInverterDataAfterProduction: ThreePInverterDataFroniusResponse = {
   Body: {
     Data: {},
   },

@@ -1,5 +1,5 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
 import axios, { AxiosResponse } from 'axios';
 import { mapKeys } from 'lodash';
@@ -17,6 +17,7 @@ import {
   EnergyReal_WAC_Sum_Produced,
   Channels,
   ChannelObject,
+  DayDetailsResponse,
 } from '../types';
 import { checkDate } from '../helpers/checkDate';
 import { fancyTimeFormat } from '../helpers/fancyFormat';
@@ -27,21 +28,7 @@ dayjs.extend(objectSupport);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Europe/Warsaw');
 
-const channels: Channels[] = [
-  Channels.Current_DC_String_1,
-  Channels.Current_DC_String_2,
-  Channels.Voltage_DC_String_1,
-  Channels.Voltage_DC_String_2,
-  Channels.Temperature_Powerstage,
-  Channels.Voltage_AC_Phase_1,
-  Channels.Voltage_AC_Phase_2,
-  Channels.Voltage_AC_Phase_3,
-  Channels.Current_AC_Phase_1,
-  Channels.Current_AC_Phase_2,
-  Channels.Current_AC_Phase_3,
-  Channels.PowerReal_PAC_Sum,
-  Channels.EnergyReal_WAC_Sum_Produced,
-];
+const channels: Channels[] = [];
 @Injectable()
 export class DayDetailsService {
   constructor(
@@ -49,32 +36,36 @@ export class DayDetailsService {
     private dayDetailRepository: Repository<DayDetail>,
   ) {}
 
-  getDetailsIfNotToday = async (year, month, day) => {
+  getDetailsIfNotToday = async (
+    year,
+    month,
+    day,
+  ): Promise<DayDetailsResponse[]> => {
     //When date is not today
 
     let connectionResult: EnergyReal_WAC_Sum_Produced[] = [];
 
-    const dayDetailsFromDatabase = await this.dayDetailRepository
+    const dayDetailsFromDatabase = (await this.dayDetailRepository
       .createQueryBuilder('item')
       .where(`YEAR( \`timestamp\` ) = :year`, { year: Number(year) })
       .andWhere(`MONTH(\`timestamp\`) = :month`, { month: Number(month) })
       .andWhere(`DAY(\`timestamp\`) = :day`, { day: Number(day) })
-      .getMany();
+      .getMany()) as unknown as DayDetailsResponse[];
 
     let sum = 0;
 
-    dayDetailsFromDatabase.map((el: GetDayDetailDto) => {
+    dayDetailsFromDatabase.map((el: DayDetailsResponse) => {
       sum = sum + el.EnergyReal_WAC_Sum_Produced;
       return (el.EnergyReal_WAC_Sum_Produced_Until_Now = Number(
         sum.toFixed(0),
       ));
     });
-    return dayDetailsFromDatabase;
+    return dayDetailsFromDatabase as unknown as DayDetailsResponse[];
 
     //
   };
 
-  getDetailsToday = async () => {
+  getDetailsToday = async (): Promise<DayDetailsResponse[]> => {
     // get data from Fronius API
     // const dateToFetch = '2021-08-20';
     const dateToFetch = dayjs().format('YYYY-MM-DD');
@@ -164,9 +155,8 @@ export class DayDetailsService {
           (v, key) => fancyTimeFormat(Number(key), dateToFetch),
         ) as ChannelObject,
       }));
-      console.log('kk');
 
-      console.log({ arrTmp });
+      // console.log({ arrTmp });
       const objTmp = {};
       const data = arrTmp.map((el) => Object.assign(objTmp, el))[0];
       const archiveReadingsArray: ArchiveReading[] = [];
@@ -209,7 +199,7 @@ export class DayDetailsService {
 
       return archiveReadingsArray.map((reading) =>
         reading.createResponseObject(),
-      );
+      ) as unknown as DayDetailsResponse[];
     } catch {
       (error) => {
         // handle error
@@ -218,7 +208,11 @@ export class DayDetailsService {
     }
   };
 
-  async getDayDetails(year: number, month: number, day: number) {
+  async getDayDetails(
+    year: number,
+    month: number,
+    day: number,
+  ): Promise<DayDetailsResponse[] | { message: string }> {
     if (
       checkDate({
         day: Number(day),

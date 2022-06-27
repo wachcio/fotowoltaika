@@ -1,4 +1,4 @@
-export interface CommonInverterData {
+export interface CommonInverterDataFroniusResponse {
   Body: {
     Data: {
       DAY_ENERGY: {
@@ -64,7 +64,7 @@ export interface CommonInverterData {
 }
 
 // Template response CommonInverterData
-const commonInverterDataResponse: CommonInverterData = {
+const commonInverterDataResponse: CommonInverterDataFroniusResponse = {
   Body: {
     Data: {
       DAY_ENERGY: {
@@ -129,7 +129,7 @@ const commonInverterDataResponse: CommonInverterData = {
   },
 };
 
-const commonInterfaceDataAfterProduction: CommonInverterData = {
+const commonInterfaceDataAfterProduction: CommonInverterDataFroniusResponse = {
   Body: {
     Data: {
       DAY_ENERGY: {

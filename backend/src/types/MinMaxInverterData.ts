@@ -1,4 +1,4 @@
-export interface MinMaxInverterData {
+export interface MinMaxInverterDataFroniusResponse {
   Body: {
     Data: {
       DAY_PMAX: {
@@ -56,7 +56,7 @@ export interface MinMaxInverterData {
 }
 
 //Template response MinMaxInverterData
-const minMaxInverterDataResponse: MinMaxInverterData = {
+const minMaxInverterDataResponse: MinMaxInverterDataFroniusResponse = {
   Body: {
     Data: {
       DAY_PMAX: {

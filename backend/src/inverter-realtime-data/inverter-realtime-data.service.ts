@@ -1,18 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
 import {
-  CommonInverterData,
-  MinMaxInverterData,
-  ThreePInverterData,
+  CommonInverterDataFroniusResponse,
+  MinMaxInverterDataFroniusResponse,
+  ThreePInverterDataFroniusResponse,
 } from 'src/types';
 
 @Injectable()
 export class InverterRealtimeDataService {
   async commonInverterData() {
     try {
-      const response: AxiosResponse<CommonInverterData> = await axios.get(
-        `${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_CID}`,
-      );
+      const response: AxiosResponse<CommonInverterDataFroniusResponse> =
+        await axios.get(
+          `${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_CID}`,
+        );
 
       return response.data;
     } catch (error) {
@@ -21,9 +22,10 @@ export class InverterRealtimeDataService {
   }
   async threeP_inverter_data() {
     try {
-      const response: AxiosResponse<ThreePInverterData> = await axios.get(
-        `${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_3PID}`,
-      );
+      const response: AxiosResponse<ThreePInverterDataFroniusResponse> =
+        await axios.get(
+          `${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_3PID}`,
+        );
 
       return response.data;
     } catch (error) {
@@ -32,9 +34,10 @@ export class InverterRealtimeDataService {
   }
   async minMaxInverterData() {
     try {
-      const response: AxiosResponse<MinMaxInverterData> = await axios.get(
-        `${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_MMID}`,
-      );
+      const response: AxiosResponse<MinMaxInverterDataFroniusResponse> =
+        await axios.get(
+          `${process.env.PV_HOST}${process.env.INVERTER_REALTIME_DATA_MMID}`,
+        );
 
       return response.data;
     } catch (error) {

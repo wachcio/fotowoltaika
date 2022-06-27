@@ -1,4 +1,4 @@
-export interface StringsCurrentData {
+export interface StringsCurrentDataFroniusResponse {
   Body: {
     Data: {
       'inverter/1': {
@@ -63,7 +63,15 @@ export interface StringsCurrentData {
   };
 }
 
-const stringsCurrentDataTemplate: StringsCurrentData = {
+export interface StringsCurrentDataResponse {
+  Current_DC_String_1: number;
+  Current_DC_String_2: number;
+  Voltage_DC_String_1: number;
+  Voltage_DC_String_2: number;
+  Temperature_Powerstage: number;
+}
+
+const stringsCurrentDataTemplate: StringsCurrentDataFroniusResponse = {
   Body: {
     Data: {
       'inverter/1': {

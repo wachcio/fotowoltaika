@@ -75,6 +75,27 @@ export type DayDetailsAPIFroniusResponse =
   | OkDayDetailsAPIFroniusResponse
   | BadDayDetailsAPIFroniusResponse;
 
+export interface DayDetailsResponse {
+  id: number;
+  Current_DC_String_1: number;
+  Current_DC_String_2: number;
+  Voltage_DC_String_1: number;
+  Voltage_DC_String_2: number;
+  Temperature_Powerstage: number;
+  Voltage_AC_Phase_1: number;
+  Voltage_AC_Phase_2: number;
+  Voltage_AC_Phase_3: number;
+  Current_AC_Phase_1: number;
+  Current_AC_Phase_2: number;
+  Current_AC_Phase_3: number;
+  PowerReal_PAC_Sum: number;
+  EnergyReal_WAC_Sum_Produced: number;
+  Power_String_1: number;
+  Power_String_2: number;
+  timestamp: string;
+  EnergyReal_WAC_Sum_Produced_Until_Now: number;
+}
+
 //Template responses
 const OkResponseTemplate: DayDetailsAPIFroniusResponse = {
   Body: {
