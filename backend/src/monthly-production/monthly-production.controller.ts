@@ -1,4 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
+import { MonthlyProduction } from 'src/types';
 import { MonthlyProductionService } from './monthly-production.service';
 
 @Controller('monthly-production')
@@ -8,10 +9,10 @@ export class MonthlyProductionController {
   ) {}
 
   @Get()
-  monthlyProduction(
+  async monthlyProduction(
     @Query('year') year: number,
     @Query('month') month: number,
-  ) {
-    return this.monthlyProductionService.monthlyProduction(year, month);
+  ): Promise<MonthlyProduction[] | { message: string }> {
+    return await this.monthlyProductionService.monthlyProduction(year, month);
   }
 }

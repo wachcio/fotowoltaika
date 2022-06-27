@@ -1,13 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
+import { EarlyProduction } from 'src/types/EarlyProduction';
 import { YearlyProductionService } from './yearly-production.service';
 
 @Controller('yearly-production')
@@ -17,7 +9,9 @@ export class YearlyProductionController {
   ) {}
 
   @Get()
-  async yearlyProduction(@Query('year') year: number) {
-    return this.yearlyProductionService.yearlyProduction(year);
+  async yearlyProduction(
+    @Query('year') year: number,
+  ): Promise<EarlyProduction[] | { message: string }> {
+    return await this.yearlyProductionService.yearlyProduction(year);
   }
 }

@@ -8,7 +8,7 @@ import {
 
 @Injectable()
 export class InverterRealtimeDataService {
-  async commonInverterData() {
+  async commonInverterData(): Promise<CommonInverterDataFroniusResponse> {
     try {
       const response: AxiosResponse<CommonInverterDataFroniusResponse> =
         await axios.get(
@@ -20,7 +20,7 @@ export class InverterRealtimeDataService {
       console.log(error);
     }
   }
-  async threeP_inverter_data() {
+  async threeP_inverter_data(): Promise<ThreePInverterDataFroniusResponse> {
     try {
       const response: AxiosResponse<ThreePInverterDataFroniusResponse> =
         await axios.get(
@@ -32,7 +32,7 @@ export class InverterRealtimeDataService {
       console.log(error);
     }
   }
-  async minMaxInverterData() {
+  async minMaxInverterData(): Promise<MinMaxInverterDataFroniusResponse> {
     try {
       const response: AxiosResponse<MinMaxInverterDataFroniusResponse> =
         await axios.get(

@@ -6,6 +6,7 @@ import * as timezone from 'dayjs/plugin/timezone';
 import { Repository } from 'typeorm';
 import { checkDate } from '../helpers/checkDate';
 import { TotalProduction } from '../common_entities/monthly-production.entity';
+import { MonthlyProduction } from 'src/types';
 
 dayjs.extend(timezone);
 dayjs.extend(objectSupport);
@@ -18,7 +19,10 @@ export class MonthlyProductionService {
     private totalProductionRepository: Repository<TotalProduction>,
   ) {}
 
-  async monthlyProduction(year: number, month: number) {
+  async monthlyProduction(
+    year: number,
+    month: number,
+  ): Promise<MonthlyProduction[] | { message: string }> {
     try {
       if (
         !checkDate({
