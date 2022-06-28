@@ -14,6 +14,7 @@ const StoreProvider = (props) => {
         { name: 'Start', path: '/', exact: true },
         { name: 'Wykres dzienny', path: '/day' },
         { name: 'Wykres miesięczny', path: '/month' },
+        { name: 'Wykres roczny', path: '/year' },
         { name: 'Wartości maksymalne', path: '/max' },
     ];
 
@@ -57,6 +58,7 @@ const StoreProvider = (props) => {
     //     null,
     // );
     const [monthProduction, setMonthProduction] = useStateWithLabel('monthDetails', null);
+    const [yearProduction, setYearProduction] = useStateWithLabel('yearDetails', null);
 
     const showMessage = (text, isAlert) => {
         setMessageText(text);
@@ -95,6 +97,8 @@ const StoreProvider = (props) => {
                 // setTodayPowerRealPACSum,
                 monthProduction,
                 setMonthProduction,
+                yearProduction,
+                setYearProduction,
             }}
         >
             {isVisibleMessage ? <Message message={messageText} alert={isMessageAlert} /> : ''}

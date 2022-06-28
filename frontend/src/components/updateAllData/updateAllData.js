@@ -21,6 +21,15 @@ export const getMonthProduction = async (year, month) =>
         )
         .then(({ data }) => data);
 
+export const getYearProduction = async (year) =>
+    axios
+        .get(
+            `${
+                process.env.REACT_APP_API_BASE_URL + process.env.REACT_APP_GET_YEAR_PRODUCTION
+            }?year=${year}`,
+        )
+        .then(({ data }) => data);
+
 const UpdateAllData = () => {
     const {
         setCommonInverterData,
