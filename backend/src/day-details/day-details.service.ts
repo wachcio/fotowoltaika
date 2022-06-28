@@ -28,7 +28,21 @@ dayjs.extend(objectSupport);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Europe/Warsaw');
 
-const channels: Channels[] = [];
+const channels: Channels[] = [
+  Channels.Current_DC_String_1,
+  Channels.Current_DC_String_2,
+  Channels.Voltage_DC_String_1,
+  Channels.Voltage_DC_String_2,
+  Channels.Temperature_Powerstage,
+  Channels.Voltage_AC_Phase_1,
+  Channels.Voltage_AC_Phase_2,
+  Channels.Voltage_AC_Phase_3,
+  Channels.Current_AC_Phase_1,
+  Channels.Current_AC_Phase_2,
+  Channels.Current_AC_Phase_3,
+  Channels.PowerReal_PAC_Sum,
+  Channels.EnergyReal_WAC_Sum_Produced,
+];
 @Injectable()
 export class DayDetailsService {
   constructor(
@@ -148,6 +162,7 @@ export class DayDetailsService {
     try {
       const response: AxiosResponse<DayDetailsAPIFroniusResponse> =
         await axios.get(`${getAPIURL()}`);
+      console.log({ response });
 
       const arrTmp = channels.map((el) => ({
         [el]: mapKeys(
@@ -156,7 +171,7 @@ export class DayDetailsService {
         ) as ChannelObject,
       }));
 
-      // console.log({ arrTmp });
+      console.log({ arrTmp });
       const objTmp = {};
       const data = arrTmp.map((el) => Object.assign(objTmp, el))[0];
       const archiveReadingsArray: ArchiveReading[] = [];
