@@ -20,7 +20,7 @@ import { InverterRealtimeDataModule } from './inverter-realtime-data/inverter-re
       password: '',
       database: 'pv_test',
       entities: ['dist/**/*.entity.js'],
-      synchronize: true,
+      // synchronize: true,
       logging: true,
     }),
     ConfigModule.forRoot({
