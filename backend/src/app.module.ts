@@ -12,19 +12,19 @@ import { InverterRealtimeDataModule } from './inverter-realtime-data/inverter-re
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['.env'],
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: process.env.DB_HOST,
       port: 3306,
-      username: 'root',
-      password: '',
-      database: 'pv_test',
-      entities: ['dist/**/*.entity.js'],
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      entities: ['**/*.entity.js'],
       // synchronize: true,
       logging: true,
-    }),
-    ConfigModule.forRoot({
-      envFilePath: ['.env.development.local'],
     }),
 
     ArchiveDataModule,
