@@ -1,1 +1,0 @@
-# fotowoltaika_server
